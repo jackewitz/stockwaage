@@ -1,0 +1,2 @@
+# stockwaage
+Projekt digitale Stockwaage
