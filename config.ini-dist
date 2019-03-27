@@ -1,0 +1,12 @@
+; config.ini
+[MQTT]
+SERVER = localhost
+PORT = 1883
+KEEPALIVE = 60
+
+[INFLUX]
+SERVER = 192.168.0.100
+PORT = 8086
+USER = admin
+PASSWORD = *********
+DATABASE = stockwaage
