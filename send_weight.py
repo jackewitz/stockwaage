@@ -40,22 +40,27 @@ def sendWeight (metric):
     influx_user = config.get('INFLUX','USER')
     influx_password = config.get('INFLUX','PASSWORD')
     influx_database = config.get('INFLUX','DATABASE')
-    dbclient = InfluxDBClient(influx_server, influx_port, influx_user, influx_password, influx_database)
+    try:
+        dbclient = InfluxDBClient(influx_server, influx_port, influx_user, influx_password, influx_database)
 
-    data = weightsFromFile(metric)
-    success = True
-    for weight in data['weights']:
-	json_body = [
-            {
-		"measurement": weight['measurement'],
-                "time": weight['time'],
-                "fields": {
-                    "weight": weight['fields']['weight']
+        data = weightsFromFile(metric)
+        success = True
+        for weight in data['weights']:
+	    json_body = [
+                {
+		    "measurement": weight['measurement'],
+                    "time": weight['time'],
+                    "fields": {
+                        "weight": weight['fields']['weight']
+                    }
                 }
-            }
-        ]
-	#print json_body
-	success = success and dbclient.write_points(json_body)
+            ]
+	    #print json_body
+	    success = success and dbclient.write_points(json_body)
+
+    except:
+        success = False
+        #print "can not connect to influxdb"
 
     if success:
 	clearFile(metric)
