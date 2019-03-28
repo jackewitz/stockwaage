@@ -12,5 +12,5 @@ cd /home/pi/stockwaage
 ./send_weight.py 1d
 
 # wifi down
-sleep 10m
-sudo ifconfig wlan0 down
+sleep 1m
+#sudo ifconfig wlan0 down
