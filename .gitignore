@@ -3,3 +3,4 @@ config.ini
 1d.txt
 1h.txt
 1m.txt
+*.pyc

@@ -2,10 +2,46 @@
 
 import random
 import sys
+import ConfigParser
 import socket
 from datetime import datetime
 import os
 import json
+
+import RPi.GPIO as GPIO
+import time
+from hx711 import HX711
+hx = HX711(5, 6)
+
+dir_path = os.path.dirname(os.path.realpath(__file__))
+config = ConfigParser.ConfigParser()
+config.read(dir_path + '/config.ini')
+
+def hx711_setup():
+    GPIO.setwarnings(False)
+    hx.set_offset(float(config.get('HX711','OFFSET')))
+    hx.set_scale(float(config.get('HX711','SCALE')))
+    pass
+
+def hx711_get():
+    retour = 0
+    sum = 0;
+    hx711_setup()
+    for x in range(10):
+        val = hx.get_grams()
+        sum = sum + val
+        #print val
+
+        hx.power_down()
+        time.sleep(.001)
+        hx.power_up()
+
+    GPIO.cleanup()
+    #print sum
+    retour = max(0, int(round(sum / 10)))
+    #print retour
+
+    return retour
 
 def stristr ( haystack, needle ):
     pos = haystack.upper().find(needle.upper())
@@ -23,8 +59,9 @@ def getFirstPart (text, char):
 
 def getWeight ():
     # test with random 1 to 10
-    retour = random.randint(1, 10)
+    #retour = random.randint(1, 10)
     # in future get weight from hx711
+    retour = hx711_get()
     return retour
 
 def saveWeight (metric, weight):
