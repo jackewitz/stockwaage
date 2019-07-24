@@ -1,4 +1,7 @@
 ; config.ini
+[MAIN]
+DEBUG = False
+
 [MQTT]
 SERVER = localhost
 PORT = 1883
@@ -12,5 +15,9 @@ PASSWORD = *********
 DATABASE = stockwaage
 
 [HX711]
+SAVE = False
 OFFSET = 8745527.375
 SCALE = 23.909959072305593
+
+[DHT22]
+SAVE = False
