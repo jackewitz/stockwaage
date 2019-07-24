@@ -21,6 +21,7 @@ config.read(dir_path + '/config.ini')
 
 if config.getboolean('HX711','SAVE'):
     import RPi.GPIO as GPIO
+    GPIO.setwarnings(False)
     import time
     from hx711 import HX711
     hx = HX711(5, 6)
@@ -32,7 +33,7 @@ def printdebug( text ):
         print text
 
 def hx711_setup():
-    GPIO.setwarnings(False)
+    #GPIO.setwarnings(False)
     hx.set_offset(float(config.get('HX711','OFFSET')))
     hx.set_scale(float(config.get('HX711','SCALE')))
     pass
