@@ -30,13 +30,13 @@ Test:
     cd examples
     sudo ./AdafruitDHT.py 22 4
 
-* 22 = Typ
+* 22 = Typ (11 oder 22)
 * 4 = GPIO
 
 Optional:
 
     sudo nano /boot/config.txt
-    dtoverlay= dht11/22,gpiopin=22
+    dtoverlay=dht11,gpiopin=4
 
 Quelle: https://www.einplatinencomputer.com/raspberry-pi-temperatur-und-luftfeuchtigkeitssensor-dht22/
 
