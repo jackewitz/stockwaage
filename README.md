@@ -10,6 +10,36 @@ Der Client, d.h. die eigentliche Stockwaage, basiert auf:
 
 Die zugehörigen Python-Scripte finden sich hier.
 
+### DHT22 (Temperatur, Luftfeuchtigkeit)
+
+Zur Nutzung des DHT22 wird eine Python Bibliothek von Adafruit benutzt. Diese muss zunächst installiert werden.
+
+Voraussetzungen:
+
+    sudo apt-get update
+    sudo apt-get install build-essential python-dev python-openssl
+
+Installation:
+
+    git clone https://github.com/adafruit/Adafruit_Python_DHT.git
+    cd Adafruit_Python_DHT
+    sudo python setup.py install
+
+Test:
+
+    cd examples
+    sudo ./AdafruitDHT.py 22 4
+
+* 22 = Typ
+* 4 = GPIO
+
+Optional:
+
+    sudo nano /boot/config.txt
+    dtoverlay= dht11/22,gpiopin=22
+
+Quelle: https://www.einplatinencomputer.com/raspberry-pi-temperatur-und-luftfeuchtigkeitssensor-dht22/
+
 ### cron jobs
 Um Daten zu sammeln und Daten an den Server zu senden, werden cron jobs verwendet.
 
@@ -18,7 +48,7 @@ Um Daten zu sammeln und Daten an den Server zu senden, werden cron jobs verwende
 Bitte einfügen:
 
     # save data
-    #* *     * * *   pi      /home/pi/stockwaage/save.py 1m
+    * *     * * *   pi      /home/pi/stockwaage/save.py 1m
     */10 *  * * *   pi      /home/pi/stockwaage/save.py 10m
     0 *     * * *   pi      /home/pi/stockwaage/save.py 1h
     0 0     * * *   pi      /home/pi/stockwaage/save.py 1d
@@ -28,8 +58,6 @@ Bitte einfügen:
     15 12     * * *   pi      /home/pi/stockwaage/send.sh
     15 16     * * *   pi      /home/pi/stockwaage/send.sh
     15 20     * * *   pi      /home/pi/stockwaage/send.sh
-
-Das Interval von einer Minute (1m) ist zu kurz für den Pi Zero, da der cron job länger als eine Minute braucht. Von daher nur zu Testzwecken aktivieren.
 
 ## Server
 

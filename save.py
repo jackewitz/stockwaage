@@ -8,13 +8,6 @@ from datetime import datetime
 import os
 import json
 
-#import RPi.GPIO as GPIO
-#import time
-#from hx711 import HX711
-#hx = HX711(5, 6)
-
-#import Adafruit_DHT
-
 dir_path = os.path.dirname(os.path.realpath(__file__))
 config = ConfigParser.ConfigParser()
 config.read(dir_path + '/config.ini')
@@ -33,7 +26,6 @@ def printdebug( text ):
         print text
 
 def hx711_setup():
-    #GPIO.setwarnings(False)
     hx.set_offset(float(config.get('HX711','OFFSET')))
     hx.set_scale(float(config.get('HX711','SCALE')))
     pass
