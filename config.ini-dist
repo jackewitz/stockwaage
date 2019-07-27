@@ -1,7 +1,7 @@
 ; config.ini
 [MAIN]
 DEBUG = True
-WLAN = OFF
+WLAN = ON
 ACTIVE = False
 
 [MQTT]
