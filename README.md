@@ -48,7 +48,7 @@ Um Daten zu sammeln und Daten an den Server zu senden, werden cron jobs verwende
 Bitte einfügen:
 
     # save data
-    * *     * * *   pi      /home/pi/stockwaage/save.py 1m
+    #* *     * * *   pi      /home/pi/stockwaage/save.py 1m
     */10 *  * * *   pi      /home/pi/stockwaage/save.py 10m
     0 *     * * *   pi      /home/pi/stockwaage/save.py 1h
     0 0     * * *   pi      /home/pi/stockwaage/save.py 1d
@@ -58,6 +58,8 @@ Bitte einfügen:
     15 12     * * *   pi      /home/pi/stockwaage/send.sh
     15 16     * * *   pi      /home/pi/stockwaage/send.sh
     15 20     * * *   pi      /home/pi/stockwaage/send.sh
+
+Die Messpunkte pro Minuten erzeugen sehr viele Daten und sind daher nur zum Testen gedacht.
 
 ## Server
 
