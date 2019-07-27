@@ -1,8 +1,11 @@
 #!/bin/bash
 
 # wifi up
-sudo ifconfig wlan0 up
-sleep 1m
+WLAN=$(iwgetid)
+if [[ ! "$WLAN" = *wlan* ]]; then
+   sudo ifconfig wlan0 up
+   sleep 1m
+fi
 
 # send data
 cd /home/pi/stockwaage
@@ -12,5 +15,8 @@ cd /home/pi/stockwaage
 ./send.py 1d
 
 # wifi down
-sleep 1m
-#sudo ifconfig wlan0 down
+TURNWLAN=$(awk -F "=" '/WLAN/ {print $2}' config.ini)
+if [ $TURNWLAN = "OFF" ]; then
+   sleep 1m
+   #sudo ifconfig wlan0 down
+fi

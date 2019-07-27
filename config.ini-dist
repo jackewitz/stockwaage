@@ -1,6 +1,8 @@
 ; config.ini
 [MAIN]
-DEBUG = False
+DEBUG = True
+WLAN = OFF
+ACTIVE = False
 
 [MQTT]
 SERVER = localhost

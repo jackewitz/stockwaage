@@ -108,29 +108,40 @@ if len(sys.argv) is not 2:
     exit(1)
 else:
     metric = sys.argv[1]
-    if config.getboolean('HX711','SAVE'):
-        printdebug("HX711")
-        saveData('weight',metric,getWeight())
 
-    if config.getboolean('DHT22','SAVE'):
-        printdebug("DHT22")
+    if config.getboolean('MAIN','ACTIVE'):
+        printdebug("Aktive Messung fuer " + metric)
 
-        #Sensortyp und GPIO festlegen
-        sensor = Adafruit_DHT.DHT22
-        gpio = 4
+        if config.getboolean('HX711','SAVE'):
+            printdebug("HX711")
+            saveData('weight',metric,getWeight())
+        else:
+            printdebug("HX711: ausgeschaltet")
 
-        # Daten auslesen und speichern
-        humidity = 200.0
-        temperature = 200.0
-        while humidity < 0 or humidity > 100 or temperature < -40 or temperature > 80:
-            humidity, temperature = Adafruit_DHT.read_retry(sensor, gpio)
-            printdebug(round(float(temperature), 1))
-            printdebug(round(float(humidity), 1))
+        if config.getboolean('DHT22','SAVE'):
+            printdebug("DHT22")
 
-        saveData('temp',metric,round(temperature, 1))
-        saveData('humidity',metric,round(humidity, 1))
+            #Sensortyp und GPIO festlegen
+            sensor = Adafruit_DHT.DHT22
+            gpio = 4
 
-        # Ausgabe
-        printdebug('Temperatur: {0:0.1f}*C Luftfeuchtigkeit: {1:0.1f}%'.format(temperature,humidity))
+            # Daten auslesen und speichern
+            humidity = 200.0
+            temperature = 200.0
+            while humidity < 0 or humidity > 100 or temperature < -40 or temperature > 80:
+                humidity, temperature = Adafruit_DHT.read_retry(sensor, gpio)
+                printdebug(round(float(temperature), 1))
+                printdebug(round(float(humidity), 1))
+
+            saveData('temp',metric,round(temperature, 1))
+            saveData('humidity',metric,round(humidity, 1))
+
+            # Ausgabe
+            printdebug('Temperatur: {0:0.1f}*C Luftfeuchtigkeit: {1:0.1f}%'.format(temperature,humidity))
+        else:
+            printdebug('DHT22: ausgeschaltet')
+
+    else:
+        printdebug('Messung deaktiviert')
 
     exit(0)
