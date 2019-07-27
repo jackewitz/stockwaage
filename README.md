@@ -59,7 +59,7 @@ Bitte einfügen:
     15 16     * * *   pi      /home/pi/stockwaage/send.sh
     15 20     * * *   pi      /home/pi/stockwaage/send.sh
 
-Die Messpunkte pro Minuten erzeugen sehr viele Daten und sind daher nur zum Testen gedacht.
+Die Messpunkte pro Minute erzeugen sehr viele Daten und sind daher nur zum Testen gedacht.
 
 ## Server
 
