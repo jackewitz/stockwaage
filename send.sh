@@ -18,5 +18,5 @@ cd /home/pi/stockwaage
 TURNWLAN=$(awk -F "=" '/WLAN/ {print $2}' config.ini)
 if [ $TURNWLAN = "OFF" ]; then
    sleep 1m
-   #sudo ifconfig wlan0 down
+   sudo ifconfig wlan0 down
 fi
