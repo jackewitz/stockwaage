@@ -36,8 +36,19 @@ def hx711_get():
     hx711_setup()
     for x in range(10):
         val = hx.get_grams()
-        sum = sum + val
         printdebug(val)
+        if x > 0:
+            valtest = sum / x
+            if val > (1.1 * valtest):
+                printdebug('Wert verworfen - zu gross')
+                sum = sum + valtest
+            elif val < (0.9 * valtest):
+                printdebug('Wert verworfen - zu klein')
+                sum = sum + valtest
+            else:
+                sum = sum + val
+        else:
+           sum = sum + val
 
         hx.power_down()
         time.sleep(.001)
