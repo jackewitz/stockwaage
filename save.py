@@ -32,42 +32,11 @@ def hx711_setup():
 
 def hx711_get():
     retour = 0
-    sum = 0;
-    hx711_setup()
-    for x in range(10):
-        val = hx.get_grams()
-        printdebug(val)
-        if x > 0:
-            valtest = sum / x
-            if val > (1.1 * valtest):
-                printdebug('Wert verworfen - zu gross')
-                sum = sum + valtest
-            elif val < (0.9 * valtest):
-                printdebug('Wert verworfen - zu klein')
-                sum = sum + valtest
-            else:
-                sum = sum + val
-        else:
-           sum = sum + val
-
-        hx.power_down()
-        time.sleep(.001)
-        hx.power_up()
-
-    printdebug(sum)
-    retour = max(0, int(round(sum / 10)))
-    printdebug(retour)
-
-    return retour
-
-def hx711_get2():
-    retour = 0
     val_array = []
     hx711_setup()
     for x in range(10):
         val = hx.get_grams()
         printdebug(val)
-        #val = random.randint(1, 10)
         if val > 0:
             val_array.append(val)
 
@@ -128,7 +97,6 @@ def getFirstPart (text, char):
 
 def getWeight ():
     retour = hx711_get()
-    #retour = hx711_get2()
     return retour
 
 def saveData (name, metric, value):
