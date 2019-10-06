@@ -60,6 +60,58 @@ def hx711_get():
 
     return retour
 
+def hx711_get2():
+    retour = 0
+    val_array = []
+    #hx711_setup()
+    for x in range(10):
+        val = hx.get_grams()
+        printdebug(val)
+        #val = random.randint(1, 10)
+        if val > 0:
+            val_array.append(val)
+
+        hx.power_down()
+        time.sleep(.001)
+        hx.power_up()
+
+    printdebug("gemessene Werte: "+str(val_array))
+    val_array = reject_outliers(val_array)
+    printdebug("gereinigter Array: "+str(val_array))
+    retour = max(0, int(round(sum(val_array) / float(len(val_array)))))
+    printdebug("Gewicht: "+str(retour))
+
+    return retour
+
+def quantile(arr, point):
+    retour = 0
+    length = len(arr)
+    pos = length * point
+    pos1 = int(abs(pos))
+    pos2 = int(abs(pos))+1
+    if pos == pos1:
+        retour = arr[pos1]
+    else:
+        retour = (arr[pos1]+arr[pos2])/2
+    return retour
+
+def reject_outliers(arr, iq_range=0.6):
+    arr.sort()
+    pcnt = (1 - iq_range) / 2
+    min = quantile(arr, pcnt)
+    max = quantile(arr, 1-pcnt)
+    printdebug("Array:"+str(arr))
+    printdebug("Grenze min: "+str(min))
+    printdebug("Grenze max: "+str(max))
+
+    retour = []
+    for x in range(len(arr)):
+        if arr[x] >= min and arr[x] <= max:
+            retour.append(arr[x])
+    printdebug("Array bereinigt: "+str(retour))
+
+    return retour
+
 def stristr ( haystack, needle ):
     pos = haystack.upper().find(needle.upper())
     if pos < 0: # not found
@@ -75,10 +127,8 @@ def getFirstPart (text, char):
         return text
 
 def getWeight ():
-    # test with random 1 to 10
-    #retour = random.randint(1, 10)
-    # in future get weight from hx711
     retour = hx711_get()
+    #retour = hx711_get2()
     return retour
 
 def saveData (name, metric, value):
