@@ -63,7 +63,7 @@ def hx711_get():
 def hx711_get2():
     retour = 0
     val_array = []
-    #hx711_setup()
+    hx711_setup()
     for x in range(10):
         val = hx.get_grams()
         printdebug(val)
