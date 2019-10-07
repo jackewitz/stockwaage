@@ -3,6 +3,7 @@
 DEBUG = True
 WLAN = ON
 ACTIVE = False
+CRON = OFF
 
 [MQTT]
 SERVER = localhost

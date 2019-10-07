@@ -44,12 +44,13 @@ def hx711_get():
         time.sleep(.001)
         hx.power_up()
 
-    printdebug("gemessene Werte: "+str(val_array))
-    val_array = reject_outliers(val_array)
-    printdebug("gereinigter Array: "+str(val_array))
-    retour = max(0, int(round(sum(val_array) / float(len(val_array)))))
-    printdebug("Gewicht: "+str(retour))
+    if len(val_array) > 0:
+        printdebug("gemessene Werte: "+str(val_array))
+        val_array = reject_outliers(val_array)
+        printdebug("gereinigter Array: "+str(val_array))
+        retour = max(0, int(round(sum(val_array) / float(len(val_array)))))
 
+    printdebug("Gewicht: "+str(retour))
     return retour
 
 def quantile(arr, point):
@@ -58,6 +59,8 @@ def quantile(arr, point):
     pos = length * point
     pos1 = int(abs(pos))
     pos2 = int(abs(pos))+1
+    if pos2 >= len(arr):
+       pos2 = pos1
     if pos == pos1:
         retour = arr[pos1]
     else:
