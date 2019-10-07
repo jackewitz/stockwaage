@@ -48,10 +48,10 @@ Um Daten zu sammeln und Daten an den Server zu senden, werden cron jobs verwende
 Bitte einfügen:
 
     # save data
-    #* *     * * *   pi      /home/pi/stockwaage/save.py 1m
-    */10 *  * * *   pi      /home/pi/stockwaage/save.py 10m
-    0 *     * * *   pi      /home/pi/stockwaage/save.py 1h
-    0 0     * * *   pi      /home/pi/stockwaage/save.py 1d
+    #* *     * * *   pi      /home/pi/stockwaage/save.sh 1m
+    */10 *  * * *   pi      /home/pi/stockwaage/save.sh 10m
+    0 *     * * *   pi      /home/pi/stockwaage/save.sh 1h
+    0 0     * * *   pi      /home/pi/stockwaage/save.sh 1d
 
     # send data
     15 8     * * *   pi      /home/pi/stockwaage/send.sh
@@ -60,6 +60,35 @@ Bitte einfügen:
     15 20     * * *   pi      /home/pi/stockwaage/send.sh
 
 Die Messpunkte pro Minute erzeugen sehr viele Daten und sind daher nur zum Testen gedacht.
+
+### Konfiguration
+
+Kopieren der Datei `config.ini-dist` nach `config.ini`:
+
+    [MAIN]
+    DEBUG = True
+    WLAN = ON
+    ACTIVE = False
+    CRON = OFF
+
+* DEBUG = True (mit Ausgaben auf der Konsole) oder False (ohne Ausgaben)
+* WLAN = ON (bleibt an) oder OFF (wird 10 Minuten nach dem Senden der Werte ausgeschaltet)
+* ACTIVE = True (es wird gemessen) oder False (es wird nicht gemessen)
+* CRON = ON (die Cronjobs sind aktiv) oder OFF (cronjobs inaktiv)
+
+#### Produktion
+    [MAIN]
+    DEBUG = False
+    WLAN = OFF
+    ACTIVE = True
+    CRON = ON
+
+#### Debugging / Development
+    [MAIN]
+    DEBUG = True
+    WLAN = ON
+    ACTIVE = True
+    CRON = OFF
 
 ## Server
 
