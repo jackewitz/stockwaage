@@ -160,16 +160,32 @@ else:
             # Daten auslesen und speichern
             humidity = 200.0
             temperature = 200.0
+            counter = 0
             while humidity < 0 or humidity > 100 or temperature < -40 or temperature > 80:
+                counter = counter + 1
+                printdebug(str(counter) + ". Messung")
                 humidity, temperature = Adafruit_DHT.read_retry(sensor, gpio)
-                printdebug(round(float(temperature), 1))
-                printdebug(round(float(humidity), 1))
+                if temperature is not None:
+                    printdebug(round(float(temperature), 1))
+                else:
+                    printdebug("Fehler beim Messen der Temperatur")
+                if humidity is not None:
+                    printdebug(round(float(humidity), 1))
+                else:
+                    printdebug("Fehler beim Messen der Luftfeuchtigkeit")
+                if counter >= 3:
+                    break
 
-            saveData('temp',metric,round(temperature, 1))
-            saveData('humidity',metric,round(humidity, 1))
+            if temperature is not None:
+                saveData('temp',metric,round(temperature, 1))
+            if humidity is not None:
+                saveData('humidity',metric,round(humidity, 1))
 
             # Ausgabe
-            printdebug('Temperatur: {0:0.1f}*C Luftfeuchtigkeit: {1:0.1f}%'.format(temperature,humidity))
+            if temperature is not None and humidity is not None:
+                printdebug('Temperatur: {0:0.1f}*C Luftfeuchtigkeit: {1:0.1f}%'.format(temperature,humidity))
+            else:
+                printdebug('FEHLER')
         else:
             printdebug('DHT22: ausgeschaltet')
 
